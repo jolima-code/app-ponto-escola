@@ -1,0 +1,191 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Documentos - Escola Cultivar</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center" href="/">
+
+            <img
+                src="{% static 'img/logo.png' %}"
+                alt="Logo"
+                width="40"
+                class="me-2">
+
+            Escola Cultivar
+
+        </a>
+
+        <div>
+            <a href="/coordenacao/" class="btn btn-outline-light me-2">
+                Painel Coordenação
+            </a>
+
+            <a href="/admin/" class="btn btn-warning me-2">
+                Admin
+            </a>
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Aprovação de Documentos / Atestados
+    </h2>
+
+        <a
+            href="/coordenacao/documentos/excel/" class="btn btn-success mb-4">
+            Exportar Documentos Excel
+        </a>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow border-warning">
+                <div class="card-body text-center">
+                    <h5>Pendentes</h5>
+                    <h2>{{ pendentes|length }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-success">
+                <div class="card-body text-center">
+                    <h5>Aprovados</h5>
+                    <h2>{{ aprovados|length }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow border-danger">
+                <div class="card-body text-center">
+                    <h5>Rejeitados</h5>
+                    <h2>{{ rejeitados|length }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h4>Todos os documentos</h4>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Colaborador</th>
+                        <th>Título</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Arquivo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in documentos %}
+
+                    <tr>
+                        <td>{{ item.funcionario.nome }}</td>
+                        <td>{{ item.titulo }}</td>
+                        <td>{{ item.data_envio|date:"d/m/Y H:i" }}</td>
+
+                        <td>
+                            {% if item.status == "aprovado" %}
+                                <span class="badge bg-success">Aprovado</span>
+                            {% elif item.status == "rejeitado" %}
+                                <span class="badge bg-danger">Rejeitado</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pendente</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a
+                                href="{{ item.arquivo.url }}"
+                                target="_blank"
+                                class="btn btn-outline-primary btn-sm">
+
+                                Ver arquivo
+
+                            </a>
+                        </td>
+
+                        <td>
+                            {% if item.status == "pendente" %}
+
+                                <a
+                                    href="/coordenacao/documentos/{{ item.id }}/aprovar/"
+                                    class="btn btn-success btn-sm">
+
+                                    Aprovar
+
+                                </a>
+
+                                <a
+                                    href="/coordenacao/documentos/{{ item.id }}/rejeitar/"
+                                    class="btn btn-danger btn-sm">
+
+                                    Rejeitar
+
+                                </a>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="6">
+                            Nenhum documento enviado.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

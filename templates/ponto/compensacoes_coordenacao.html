@@ -1,0 +1,248 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        Compensações - Escola Cultivar
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center" href="/">
+
+            <img
+                src="{% static 'img/logo.png' %}"
+                alt="Logo"
+                width="40"
+                class="me-2">
+
+            Escola Cultivar
+
+        </a>
+
+        <div>
+
+            <a
+                href="/coordenacao/"
+                class="btn btn-outline-light me-2">
+
+                Painel Coordenação
+
+            </a>
+
+            <a
+                href="/admin/"
+                class="btn btn-warning me-2">
+
+                Admin
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Compensações de Horas
+    </h2>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-warning">
+
+                <div class="card-body text-center">
+
+                    <h5>
+                        Pendentes
+                    </h5>
+
+                    <h2>
+                        {{ pendentes|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-success">
+
+                <div class="card-body text-center">
+
+                    <h5>
+                        Aprovadas
+                    </h5>
+
+                    <h2>
+                        {{ aprovadas|length }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4>
+                Todas as compensações
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Colaborador</th>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                        <th>Status</th>
+                        <th>Motivo</th>
+                        <th>Ações</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in compensacoes %}
+
+                    <tr>
+
+                        <td>
+                            {{ item.funcionario.nome }}
+                        </td>
+
+                        <td>
+                            {{ item.data }}
+                        </td>
+
+                        <td>
+                            {{ item.get_tipo_display }}
+                        </td>
+
+                        <td>
+                            {{ item.quantidade }}
+                        </td>
+
+                        <td>
+
+                            {% if item.aprovado %}
+
+                                <span class="badge bg-success">
+
+                                    Aprovada
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Pendente
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ item.motivo }}
+                        </td>
+
+                        <td>
+
+                            {% if not item.aprovado %}
+
+                                <a
+                                    href="/coordenacao/compensacoes/{{ item.id }}/aprovar/"
+                                    class="btn btn-success btn-sm">
+
+                                    Aprovar
+
+                                </a>
+
+                                <a
+                                    href="/coordenacao/compensacoes/{{ item.id }}/rejeitar/"
+                                    class="btn btn-danger btn-sm">
+
+                                    Rejeitar
+
+                                </a>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            Nenhuma compensação cadastrada.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
