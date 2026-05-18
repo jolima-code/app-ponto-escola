@@ -28,6 +28,8 @@ urlpatterns = [
     path("", include("ponto.urls")),
 
     path("documentos/", include("documentos.urls")),
+
+    path("", include("funcionarios.urls")),
 ]
 
 urlpatterns += static(
