@@ -148,20 +148,29 @@ if DATABASE_URL:
     DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 
 JAZZMIN_SETTINGS = {
+
     "site_title": "Escola Cultivar",
+
     "site_header": "Escola Cultivar",
+
     "site_brand": "Escola Cultivar",
+
     "welcome_sign": "Bem-vindo à Administração",
+
     "copyright": "Escola Cultivar",
 
-    "site_logo": "img/logo.png",
-    "login_logo": True,
-    "login_logo_dark": True,
+    "site_logo": None,
+
+    "login_logo": None,
+
+    "login_logo_dark": None,
 
     "show_sidebar": True,
+
     "navigation_expanded": True,
 
     "topmenu_links": [
+
         {
             "name": "Ver sistema",
             "url": "/",
@@ -169,38 +178,65 @@ JAZZMIN_SETTINGS = {
     ],
 
     "order_with_respect_to": [
+
         "funcionarios",
+
         "ponto",
+
         "banco_horas",
+
         "documentos",
+
         "auth",
     ],
 
     "icons": {
+
         "auth": "fas fa-users-cog",
+
         "auth.user": "fas fa-user",
+
         "auth.Group": "fas fa-users",
+
         "funcionarios.Funcionario": "fas fa-id-badge",
+
         "ponto.RegistroPonto": "fas fa-clock",
+
         "documentos.Documento": "fas fa-file-alt",
+
         "banco_horas.SaldoBancoHoras": "fas fa-hourglass-half",
+
         "banco_horas.CompensacaoBancoHoras": "fas fa-exchange-alt",
+
         "banco_horas.FechamentoBancoHoras": "fas fa-lock",
     },
 }
 
+
 JAZZMIN_UI_TWEAKS = {
+
     "theme": "flatly",
+
     "navbar": "navbar-primary navbar-dark",
+
     "sidebar": "sidebar-light-primary",
+
     "brand_colour": "navbar-primary",
+
     "accent": "accent-primary",
+
     "button_classes": {
+
         "primary": "btn btn-primary rounded-pill",
+
         "secondary": "btn btn-secondary rounded-pill",
+
         "success": "btn btn-success rounded-pill",
+
         "danger": "btn btn-danger rounded-pill",
+
         "warning": "btn btn-warning rounded-pill",
+
         "info": "btn btn-info rounded-pill",
     },
 }
