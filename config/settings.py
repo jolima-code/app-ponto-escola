@@ -155,8 +155,8 @@ JAZZMIN_SETTINGS = {
     "copyright": "Escola Cultivar",
 
     "site_logo": "img/logo.png",
-    "login_logo": "img/logo.png",
-    "login_logo_dark": "img/logo.png",
+    "login_logo": None,
+    "login_logo_dark": None,
 
     "show_sidebar": True,
     "navigation_expanded": True,
