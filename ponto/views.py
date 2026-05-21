@@ -4,6 +4,8 @@ from banco_horas.models import (
     CompensacaoBancoHoras,
 )
 
+import math
+from django.http import JsonResponse
 import openpyxl
 
 from django.contrib import messages
@@ -16,6 +18,37 @@ from documentos.models import Documento
 from funcionarios.models import Funcionario
 from .models import RegistroPonto
 
+ESCOLA_LATITUDE = -0.006078
+ESCOLA_LONGITUDE = -51.088363
+
+RAIO_PERMITIDO_METROS = 30
+
+
+def calcular_distancia(lat1, lon1, lat2, lon2):
+
+    raio_terra = 6371000
+
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+
+    delta_phi = math.radians(lat2 - lat1)
+    delta_lambda = math.radians(lon2 - lon1)
+
+    a = (
+        math.sin(delta_phi / 2) ** 2
+        + math.cos(phi1)
+        * math.cos(phi2)
+        * math.sin(delta_lambda / 2) ** 2
+    )
+
+    c = 2 * math.atan2(
+        math.sqrt(a),
+        math.sqrt(1 - a)
+    )
+
+    distancia = raio_terra * c
+
+    return distancia
 
 def usuario_equipe(user):
     return user.is_staff
@@ -136,10 +169,41 @@ def bater_ponto(request):
 
                 return redirect("bater_ponto")
 
+        latitude = request.POST.get("latitude")
+        longitude = request.POST.get("longitude")
+
+        distancia = None
+        localizacao_valida = False
+
+        if latitude and longitude:
+
+            distancia = calcular_distancia(
+                float(latitude),
+                float(longitude),
+                ESCOLA_LATITUDE,
+                ESCOLA_LONGITUDE
+            )
+
+            if distancia <= RAIO_PERMITIDO_METROS:
+                localizacao_valida = True
+
+        if not localizacao_valida:
+
+            messages.error(
+                request,
+                "Você está fora da área permitida da escola."
+            )
+
+            return redirect("bater_ponto")
+
         RegistroPonto.objects.create(
             funcionario=funcionario,
             tipo=tipo,
-            observacao=observacao
+            observacao=observacao,
+            latitude=latitude,
+            longitude=longitude,
+            distancia_metros=distancia,
+            localizacao_valida=localizacao_valida
         )
 
         registros_dia = RegistroPonto.objects.filter(

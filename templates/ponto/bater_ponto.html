@@ -4,56 +4,145 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Escola Cultivar</title>
+    <title>Escola Cultivar - Ponto</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
+    <style>
+        body {
+            background: #f3f6f9;
+        }
+
+        .navbar-brand img {
+            object-fit: contain;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd, #20c997);
+            color: white;
+            border-radius: 24px;
+            padding: 28px;
+            margin-top: 24px;
+            box-shadow: 0 12px 30px rgba(13, 110, 253, 0.18);
+        }
+
+        .dashboard-card {
+            border: 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .dashboard-card h6 {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .dashboard-card h2 {
+            font-weight: 800;
+        }
+
+        .main-card {
+            border: 0;
+            border-radius: 24px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .main-card-header {
+            background: #0d6efd;
+            color: white;
+            padding: 24px;
+        }
+
+        .btn-register {
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 16px;
+        }
+
+        .soft-box {
+            background: #eef6ff;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .table-card {
+            border: 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .table-card .card-header {
+            font-weight: 700;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 22px;
+            }
+
+            .navbar .btn {
+                margin-top: 8px;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
 
-    <div class="container">
+    <div class="container-fluid px-4">
 
         <a class="navbar-brand d-flex align-items-center" href="/">
 
             <img
                 src="{% static 'img/logo.png' %}"
                 alt="Logo"
-                width="40"
+                width="48"
                 class="me-2">
 
-            Escola Cultivar
+            <strong>Escola Cultivar</strong>
 
         </a>
 
-        <div>
+        <div class="d-flex flex-wrap gap-2">
 
-            <a href="/" class="btn btn-outline-light me-2">
+            <a href="/" class="btn btn-outline-light">
                 Ponto
             </a>
 
-            <a href="/relatorio/" class="btn btn-outline-light me-2">
+            <a href="/relatorio/" class="btn btn-outline-light">
                 Relatório
             </a>
 
-            <a href="/resumo-mensal/" class="btn btn-outline-light me-2">
+            <a href="/resumo-mensal/" class="btn btn-outline-light">
                 Resumo Mensal
             </a>
 
-            <a href="/documentos/" class="btn btn-outline-light me-2">
+            <a href="/banco-horas/" class="btn btn-outline-light">
+                Banco de Horas
+            </a>
+
+            <a href="/documentos/" class="btn btn-outline-light">
                 Documentos
             </a>
 
-            <a href="/admin/" class="btn btn-warning me-2">
+            <a href="/admin/" class="btn btn-warning">
                 Admin
             </a>
 
@@ -76,74 +165,76 @@
 
 </nav>
 
-{% if messages %}
+<div class="container-fluid px-4">
 
-<div class="container mt-3">
+    {% if messages %}
 
-    {% for message in messages %}
+        <div class="mt-3">
 
-        <div class="alert alert-{{ message.tags }} text-center">
+            {% for message in messages %}
 
-            {{ message }}
+                <div class="alert alert-{{ message.tags }} text-center rounded-4 shadow-sm">
 
-        </div>
+                    {{ message }}
 
-    {% endfor %}
+                </div>
 
-</div>
-
-{% endif %}
-
-<div class="container mt-3">
-
-    <div class="d-flex justify-content-between align-items-center">
-
-        <h5>
-            Usuário: {{ request.user.username }}
-        </h5>
-
-        <div>
-
-            <p class="mb-0">
-                Colaborador:
-                <strong>{{ funcionario.nome }}</strong>
-            </p>
-
-            <p class="mb-0">
-                Setor:
-                <strong>{{ funcionario.setor }}</strong>
-            </p>
+            {% endfor %}
 
         </div>
 
-    </div>
+    {% endif %}
 
-</div>
+    <section class="page-header">
 
-<div class="container mt-5">
+        <div class="row align-items-center">
 
-    <div class="row mb-4">
+            <div class="col-md-8">
 
-        <div class="col-md-4 mb-3">
+                <h1 class="fw-bold mb-2">
+                    Registro de Ponto
+                </h1>
 
-            <div class="card shadow border-danger">
+                <p class="mb-0">
+                    Bem-vindo(a), <strong>{{ funcionario.nome }}</strong>.
+                    Registre seu ponto com data, hora e localização da escola.
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                <p class="mb-1">
+                    Usuário: <strong>{{ request.user.username }}</strong>
+                </p>
+
+                <p class="mb-0">
+                    Setor: <strong>{{ funcionario.setor }}</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="row mt-4 g-4">
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card">
 
                 <div class="card-body text-center">
 
-                    <h5>Situação do Dia</h5>
+                    <h6>Situação do Dia</h6>
 
-                    <h2>
+                    <h2 class="text-primary">
                         {{ situacao_dia }}
                     </h2>
 
-                    <p class="text-muted">
-
+                    <p class="text-muted mb-0">
                         Batidas hoje:
-
-                        <strong>
-                            {{ quantidade_batidas_hoje }}
-                        </strong>
-
+                        <strong>{{ quantidade_batidas_hoje }}</strong>
                     </p>
 
                 </div>
@@ -152,64 +243,21 @@
 
         </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3">
 
-            <div class="card shadow border-primary">
-
-                <div class="card-body text-center">
-
-                    <h5>Total de Registros</h5>
-
-                    <h2>
-                        {{ total_registros }}
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4 mb-3">
-
-            <div class="card shadow border-success">
+            <div class="card dashboard-card">
 
                 <div class="card-body text-center">
 
-                    <h5>Horas Trabalhadas Hoje</h5>
+                    <h6>Horas Hoje</h6>
 
-                    <h2>
+                    <h2 class="text-success">
                         {{ horas_trabalhadas }}
                     </h2>
 
-                    <p class="text-muted">
-
-                        Jornada diária:
-
-                        <strong>
-                            {{ funcionario.carga_horaria_diaria }} horas
-                        </strong>
-
-                    </p>
-
-                    <p class="mt-2">
-
-                        Status:
-
-                        <strong>
-                            {{ status_horas }}
-                        </strong>
-
-                    </p>
-
-                    <p>
-
-                        Entrada:
-
-                        <strong>
-                            {{ status_entrada }}
-                        </strong>
-
+                    <p class="text-muted mb-0">
+                        Jornada:
+                        <strong>{{ funcionario.carga_horaria_diaria }}h</strong>
                     </p>
 
                 </div>
@@ -218,17 +266,21 @@
 
         </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3">
 
-            <div class="card shadow border-warning">
+            <div class="card dashboard-card">
 
                 <div class="card-body text-center">
 
-                    <h5>Documentos Enviados</h5>
+                    <h6>Status de Entrada</h6>
 
-                    <h2>
-                        {{ total_documentos }}
+                    <h2 class="text-warning">
+                        {{ status_entrada }}
                     </h2>
+
+                    <p class="text-muted mb-0">
+                        Horas: <strong>{{ status_horas }}</strong>
+                    </p>
 
                 </div>
 
@@ -236,23 +288,44 @@
 
         </div>
 
-    </div>
+        <div class="col-md-3">
 
-    <div class="row justify-content-center">
+            <div class="card dashboard-card">
 
-        <div class="col-md-6">
+                <div class="card-body text-center">
 
-            <div class="card shadow">
+                    <h6>Documentos</h6>
 
-                <div class="card-header bg-primary text-white">
+                    <h2 class="text-dark">
+                        {{ total_documentos }}
+                    </h2>
 
-                    <h3 class="text-center">
+                    <p class="text-muted mb-0">
+                        Total de registros:
+                        <strong>{{ total_registros }}</strong>
+                    </p>
 
-                        Registro de Ponto
+                </div>
 
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="row mt-5 g-4 align-items-start">
+
+        <div class="col-lg-5">
+
+            <div class="main-card card">
+
+                <div class="main-card-header text-center">
+
+                    <h3 class="fw-bold mb-3">
+                        Bater Ponto
                     </h3>
 
-                    <div class="alert alert-primary text-center mt-3">
+                    <div class="soft-box text-dark mb-3">
 
                         Próxima batida esperada:
 
@@ -264,35 +337,31 @@
 
                     {% if ultimo_registro %}
 
-                    <div class="alert alert-info mt-3">
+                        <div class="alert alert-info mb-0 rounded-4">
 
-                        Última batida:
+                            Última batida:
+                            <strong>{{ ultimo_registro.get_tipo_display }}</strong>
+                            em
+                            <strong>{{ ultimo_registro.data_hora|date:"d/m/Y H:i" }}</strong>
 
-                        <strong>
-                            {{ ultimo_registro.get_tipo_display }}
-                        </strong>
-
-                        em
-
-                        <strong>
-                            {{ ultimo_registro.data_hora }}
-                        </strong>
-
-                    </div>
+                        </div>
 
                     {% endif %}
 
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <form method="post">
+
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
 
                         {% csrf_token %}
 
                         <div class="mb-3">
 
-                            <label class="form-label">
+                            <label class="form-label fw-semibold">
                                 Colaborador
                             </label>
 
@@ -306,7 +375,7 @@
 
                         <div class="mb-3">
 
-                            <label class="form-label">
+                            <label class="form-label fw-semibold">
                                 Tipo de Registro
                             </label>
 
@@ -319,11 +388,11 @@
                                 </option>
 
                                 <option value="saida_almoco">
-                                    🍽️ Saída Almoço
+                                    🍽️ Saída para almoço
                                 </option>
 
                                 <option value="retorno_almoco">
-                                    🔙 Retorno Almoço
+                                    🔙 Retorno do almoço
                                 </option>
 
                                 <option value="saida">
@@ -336,7 +405,7 @@
 
                         <div class="mb-3">
 
-                            <label class="form-label">
+                            <label class="form-label fw-semibold">
                                 Observação
                             </label>
 
@@ -348,9 +417,9 @@
 
                         </div>
 
-                        <div class="alert alert-info text-center">
+                        <div class="alert alert-primary text-center rounded-4">
 
-                            Registro realizado com data e hora automáticas do sistema.
+                            O registro usa data, hora e localização do dispositivo.
 
                         </div>
 
@@ -358,9 +427,9 @@
 
                             <button
                                 type="submit"
-                                class="btn btn-primary btn-lg w-100 py-3">
+                                class="btn btn-success btn-register">
 
-                                Registrar Ponto
+                                ✅ Registrar Ponto
 
                             </button>
 
@@ -374,127 +443,183 @@
 
         </div>
 
-    </div>
+        <div class="col-lg-7">
 
-    <div class="card shadow mt-4">
+            <div class="card table-card mb-4">
 
-        <div class="card-header bg-info text-white">
+                <div class="card-header bg-info text-white">
 
-            <h5>Batidas de Hoje</h5>
-
-        </div>
-
-        <div class="card-body">
-
-            {% if registros_hoje %}
-
-                <div class="row">
-
-                    {% for registro in registros_hoje %}
-
-                    <div class="col-md-3 mb-3">
-
-                        <div class="card border-primary">
-
-                            <div class="card-body text-center">
-
-                                <h6>
-                                    {{ registro.get_tipo_display }}
-                                </h6>
-
-                                <h4>
-                                    {{ registro.data_hora|date:"H:i" }}
-                                </h4>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {% endfor %}
+                    Batidas de Hoje
 
                 </div>
 
-            {% else %}
+                <div class="card-body">
 
-                <p class="text-center">
+                    {% if registros_hoje %}
 
-                    Nenhuma batida registrada hoje.
+                        <div class="row g-3">
 
-                </p>
+                            {% for registro in registros_hoje %}
 
-            {% endif %}
+                                <div class="col-md-6">
+
+                                    <div class="border rounded-4 p-3 bg-white">
+
+                                        <h6 class="mb-1">
+                                            {{ registro.get_tipo_display }}
+                                        </h6>
+
+                                        <h3 class="fw-bold mb-0">
+                                            {{ registro.data_hora|date:"H:i" }}
+                                        </h3>
+
+                                        {% if registro.localizacao_valida %}
+
+                                            <small class="text-success">
+                                                Localização validada
+                                            </small>
+
+                                        {% else %}
+
+                                            <small class="text-muted">
+                                                Sem validação de localização
+                                            </small>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% else %}
+
+                        <p class="text-center text-muted mb-0">
+                            Nenhuma batida registrada hoje.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="card table-card">
+
+                <div class="card-header bg-secondary text-white">
+
+                    Últimos Registros
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Tipo</th>
+                                    <th>Data/Hora</th>
+                                    <th>Local</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for registro in ultimos_registros %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ registro.get_tipo_display }}
+                                        </td>
+
+                                        <td>
+                                            {{ registro.data_hora|date:"d/m/Y H:i" }}
+                                        </td>
+
+                                        <td>
+
+                                            {% if registro.localizacao_valida %}
+
+                                                <span class="badge bg-success">
+                                                    Dentro da escola
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="badge bg-secondary">
+                                                    Não validado
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% empty %}
+
+                                    <tr>
+
+                                        <td colspan="3" class="text-center text-muted">
+
+                                            Nenhum registro encontrado.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
-    </div>
-
-    <div class="card shadow mt-4">
-
-        <div class="card-header bg-secondary text-white">
-
-            <h4>Últimos Registros</h4>
-
-        </div>
-
-        <div class="card-body">
-
-            <table class="table table-striped">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Colaborador</th>
-                        <th>Tipo</th>
-                        <th>Data/Hora</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for registro in ultimos_registros %}
-
-                    <tr>
-
-                        <td>{{ registro.funcionario.nome }}</td>
-
-                        <td>
-                            {{ registro.get_tipo_display }}
-                        </td>
-
-                        <td>
-                            {{ registro.data_hora|date:"d/m/Y H:i" }}
-                        </td>
-
-                    </tr>
-
-                    {% empty %}
-
-                    <tr>
-
-                        <td colspan="3">
-
-                            Nenhum registro encontrado.
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+    </section>
 
 </div>
+
+<script>
+
+navigator.geolocation.getCurrentPosition(
+
+    function(posicao) {
+
+        document.getElementById("latitude").value =
+            posicao.coords.latitude;
+
+        document.getElementById("longitude").value =
+            posicao.coords.longitude;
+    },
+
+    function(erro) {
+
+        alert(
+            "É necessário permitir localização para bater ponto."
+        );
+    }
+
+);
+
+</script>
 
 </body>
 
