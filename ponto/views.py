@@ -56,7 +56,17 @@ def usuario_equipe(user):
 
 @login_required
 def bater_ponto(request):
-    funcionario = Funcionario.objects.get(usuario=request.user)
+    funcionario = Funcionario.objects.filter(usuario=request.user).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
+    
 
     ultimos_registros = RegistroPonto.objects.filter(
         funcionario=funcionario
@@ -277,9 +287,18 @@ def bater_ponto(request):
 @login_required
 def relatorio_ponto(request):
 
-    funcionario = Funcionario.objects.get(
+    funcionario = Funcionario.objects.filter(
         usuario=request.user
-    )
+    ).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
 
     mes = request.GET.get("mes")
 
@@ -356,11 +375,22 @@ def relatorio_ponto(request):
 
 @login_required
 def exportar_excel(request):
-    funcionario = Funcionario.objects.get(usuario=request.user)
+    funcionario = Funcionario.objects.filter(
+    usuario=request.user
+    ).first()
 
-    registros = RegistroPonto.objects.filter(
-        funcionario=funcionario
-    ).order_by("-data_hora")
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
+
+        registros = RegistroPonto.objects.filter(
+            funcionario=funcionario
+        ).order_by("-data_hora")
 
     workbook = openpyxl.Workbook()
     sheet = workbook.active
@@ -579,9 +609,18 @@ def exportar_coordenacao_excel(request):
 @login_required
 def resumo_mensal(request):
 
-    funcionario = Funcionario.objects.get(
+    funcionario = Funcionario.objects.filter(
         usuario=request.user
-    )
+    ).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
 
     mes = request.GET.get("mes")
 
@@ -670,9 +709,18 @@ def resumo_mensal(request):
 @login_required
 def meu_banco_horas(request):
 
-    funcionario = Funcionario.objects.get(
+    funcionario = Funcionario.objects.filter(
         usuario=request.user
-    )
+    ).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
 
     mes = request.GET.get("mes")
 
@@ -740,9 +788,18 @@ def meu_banco_horas(request):
 @login_required
 def exportar_banco_horas_excel(request):
 
-    funcionario = Funcionario.objects.get(
+    funcionario = Funcionario.objects.filter(
         usuario=request.user
-    )
+    ).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário."
+        )
+
+        return redirect("cadastro_funcionario")
 
     mes = request.GET.get("mes")
 
@@ -806,9 +863,18 @@ def exportar_banco_horas_excel(request):
 @login_required
 def solicitar_compensacao(request):
 
-    funcionario = Funcionario.objects.get(
+    funcionario = Funcionario.objects.filter(
         usuario=request.user
-    )
+    ).first()
+
+    if not funcionario:
+
+        messages.error(
+            request,
+            "Seu usuário ainda não possui cadastro de funcionário. Complete seu cadastro."
+        )
+
+        return redirect("cadastro_funcionario")
 
     if request.method == "POST":
 
@@ -878,8 +944,7 @@ def aprovar_compensacao(request, compensacao_id):
 
     compensacao.save()
 
-    messages.success(
-        request,
+    messages.success(request,
         "Compensação aprovada com sucesso."
     )
 
