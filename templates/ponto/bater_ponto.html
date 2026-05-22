@@ -100,6 +100,10 @@
             }
         }
     </style>
+
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#ff7b00">
+
 </head>
 
 <body>
@@ -619,6 +623,12 @@ navigator.geolocation.getCurrentPosition(
 
 );
 
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/static/sw.js");
+}
 </script>
 
 </body>

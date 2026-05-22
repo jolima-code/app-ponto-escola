@@ -1,0 +1,21 @@
+{
+  "name": "Escola Cultivar - Ponto",
+  "short_name": "Cultivar",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e8f1ff",
+  "theme_color": "#ff7b00",
+  "description": "Sistema de ponto da Escola Cultivar",
+  "icons": [
+    {
+      "src": "/static/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
