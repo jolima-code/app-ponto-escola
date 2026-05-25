@@ -748,29 +748,22 @@ def meu_banco_horas(request):
     )
 
     total_saldo = timedelta()
+    total_creditos = timedelta()
+    total_debitos = timedelta()
 
     for item in saldos:
-        total_saldo += item.saldo
 
-    compensacoes_aprovadas = compensacoes_aprovadas_lista
+        if item.saldo:
+            total_saldo += item.saldo
 
-    for item in compensacoes_aprovadas:
+    for item in compensacoes_aprovadas_lista:
 
         if item.tipo == "credito":
             total_saldo += item.quantidade
-
-        elif item.tipo == "debito":
-            total_saldo -= item.quantidade
-
-        total_creditos = timedelta()
-        total_debitos = timedelta()
-
-    for item in compensacoes_aprovadas:
-
-        if item.tipo == "credito":
             total_creditos += item.quantidade
 
         elif item.tipo == "debito":
+            total_saldo -= item.quantidade
             total_debitos += item.quantidade
 
     return render(request, "ponto/meu_banco_horas.html", {
