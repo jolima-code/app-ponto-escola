@@ -172,8 +172,18 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         {
-            "name": "Ver sistema",
+            "name": "🏠 Tela de Ponto",
             "url": "/",
+        },
+
+        {
+            "name": "📊 Coordenação",
+            "url": "/coordenacao/",
+        },
+
+        {
+            "name": "⏰ Banco de Horas",
+            "url": "/banco-horas/",
         },
     ],
 
@@ -217,13 +227,13 @@ JAZZMIN_UI_TWEAKS = {
 
     "theme": "flatly",
 
-    "navbar": "navbar-primary navbar-dark",
+   "navbar": "navbar-white navbar-light",
 
     "sidebar": "sidebar-light-primary",
 
-    "brand_colour": "navbar-primary",
+    "brand_colour": "navbar-light",
 
-    "accent": "accent-primary",
+    "accent": "accent-info",
 
     "button_classes": {
 
