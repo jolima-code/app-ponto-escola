@@ -24,11 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-gcmd)=nnc0e@@@edra=-!j!h1dl9&9#wuh0+zot_jh7_o(92n9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "app-ponto-escola.onrender.com",
     ".onrender.com",
 ]
 
@@ -250,3 +251,7 @@ JAZZMIN_UI_TWEAKS = {
         "info": "btn btn-info rounded-pill",
     },
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://app-ponto-escola.onrender.com",
+]
